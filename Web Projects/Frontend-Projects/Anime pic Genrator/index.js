@@ -1,0 +1,28 @@
+const btnEl = document.getElementById('btn');
+const animeContainerEl = document.querySelector(".anime-container")
+const animeImgEl = document.querySelector(".anime-img")
+const animeNameEl = document.querySelector(".animeName")
+
+btnEl.addEventListener("click", async function () {
+    try {
+
+        btnEl.disabled = true;
+        btnEl.innerText = "Loading...."
+        animeNameEl.innerText = "Updating..."
+
+        const response = await fetch('https://api.catboys.com/img')
+        const data = await response.json()
+
+        btnEl.disabled = false;  //once we get the data then its show again the btn of get anime
+        btnEl.innerText = "Get Anime";  // once we get it then its change its text as get anime
+        animeContainerEl.style.display = 'block';
+
+        animeImgEl.src = data.url;
+        animeNameEl.innerText = data.artist;
+    } catch (error) {
+        console.log(error);
+        btnEl.disabled = false;
+        btnEl.innerText = "Get Anime";
+        animeNameEl.innerText = "An error happend refresh it"
+    }
+})
